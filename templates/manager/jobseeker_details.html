@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Manager Dashboard - Jobseekers{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-3">
+        {% include 'manager/sidebar.html' %}
+    </div>
+    <div class="col-md-9">
+        <h2>Jobseeker Details</h2>
+        {% if jobseekers %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Skills</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jobseeker in jobseekers %}
+                <tr>
+                    <td>{{ jobseeker.first_name }} {{ jobseeker.last_name }}</td>
+                    <td>{{ jobseeker.email }}</td>
+                    <td>{{ jobseeker.skills }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'delete_company' jobseeker.user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div>
+            No Jobseekers Found.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

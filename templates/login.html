@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login to Your Account{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            padding: 40px;
+        }
+        .form-control {
+            border-radius: 20px;
+        }
+        .btn-primary {
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ced4da;
+        }
+        .divider span {
+            padding: 0 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="login-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="text-center text-danger">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="mb-0">Welcome Back</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="loginForm" method="POST" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                        
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Log In</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p>Not registered yet? <a href="{% url 'role_selection' %}" class="text-decoration-none">Create an account</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

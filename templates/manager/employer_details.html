@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Manager Dashboard{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/manager-dashboard.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-3">
+        {% include 'manager/sidebar.html' %}
+    </div>
+    <div class="col-md-9">
+        {% if employer_users %}
+            <h2>Employer Details</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employer in employer_users %}
+                        <tr>
+                            <td>{{ employer.company_name }}</td>
+                            <td>{{ employer.email }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'delete_company' employer.user.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No employers found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

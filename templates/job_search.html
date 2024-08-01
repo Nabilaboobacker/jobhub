@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<style>
+    .search-container {
+        margin-top: 20px;
+    }
+    .search-query {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    .search-results {
+        margin-top: 20px;
+    }
+    .search-result {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .search-result h3 {
+        margin-top: 0;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="search-container">
+        <h1>Search Results</h1>
+        {% if jobs %}
+        <p class="search-query">You searched for: <strong>{{ search_keyword }}</strong></p>
+        {% endif %}
+    </div>
+    {% if jobs %}
+    <div class="search-results">
+        {% comment %} Static search results {% endcomment %}
+        {% for job in jobs %}
+        <div class="search-result">
+            <h4>{{ job.title }}</h4>
+            <p>{{ job.description | truncatechars:300 }}</p>
+            <p class="disabled">{{ job.company.company_name }}</p>
+            {% if job.id in user_job_applications %}
+            <a class="btn btn-sm btn-primary">Applied</a>
+            {% else %}
+            <a class="btn btn-sm btn-primary" href="{% url 'apply_now' job.id %}">Apply</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="search-query">No results found for: <strong>{{ search_keyword }}</strong></p>
+    {% endif %}
+</div>
+{% endblock %}

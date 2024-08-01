@@ -1,0 +1,15 @@
+.registration-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 400px;
+}
+.registration-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+.form-group label {
+    font-weight: bold;
+}       

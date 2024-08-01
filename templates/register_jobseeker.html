@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register as a Jobseeker{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/register_jobseeker.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mt-5">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Jobseeker Registration</h2>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'register_jobseeker' %}" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="password1">Password</label>
+                                <input type="password" class="form-control" id="password1" name="password1" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="password2">Confirm Password</label>
+                                <input type="password" class="form-control" id="password2" name="password2" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resume">Upload Resume</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="resume" name="resume" required>
+                                <label class="custom-file-label" for="resume">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="location">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="mt-2 btn btn-primary btn-block">Register</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <small>Already have an account? <a href="{% url 'login' %}">Login here</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'js/register_jobseeker.js' %}"></script>
+{% endblock %}

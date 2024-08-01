@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register as an Employer - JobHub{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/register_employer.css' %}">
+<style>
+    .registration-container {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    .registration-form {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    .form-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+    .form-group label {
+        font-weight: 600;
+        color: #34495e;
+    }
+    .btn-register {
+        background-color: #3498db;
+        border-color: #3498db;
+        font-weight: 600;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+    .btn-register:hover {
+        background-color: #2980b9;
+        border-color: #2980b9;
+    }
+    .login-link {
+        color: #3498db;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .login-link:hover {
+        color: #2980b9;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="registration-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="registration-form animate__animated animate__fadeIn">
+                    <h2 class="text-center form-title">Employer Registration</h2>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="POST" action="{% url 'register_employer' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company_name">Company Name</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company_description">Company Description</label>
+                            <textarea class="form-control" id="company_description" name="company_description" rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="website">Website</label>
+                                <input type="url" class="form-control" id="website" name="website" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="password1">Password</label>
+                                <input type="password" class="form-control" id="password1" name="password1" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="password2">Confirm Password</label>
+                                <input type="password" class="form-control" id="password2" name="password2" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="mt-2 btn btn-primary btn-block btn-register">Register</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small>Already have an account? <a href="{% url 'login' %}" class="login-link">Login here</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    }, false);
+});
+</script>
+{% endblock %}

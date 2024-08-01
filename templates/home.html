@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Find Your Dream Job{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <style>
+        .hero-section {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .search-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .featured-jobs {
+            padding: 40px 0;
+        }
+        .job-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .job-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .job-company {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Find Your Dream Job</h1>
+        <form class="search-form" action="{% url 'job_search' %}" method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" class="form-control" name="search_keyword" placeholder="Search for jobs...">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% if featured_jobs %}
+<div class="featured-jobs">
+    <div class="container">
+        <h2 class="mb-4">Featured Jobs</h2>
+        <div class="row">
+            {% for job in featured_jobs %}
+            {% if forloop.counter < 5 %}
+            <div class="col-md-6">
+                <div class="job-card">
+                    <h3 class="job-title">{{ job.title }}</h3>
+                    <p class="job-company">{{ job.company }}</p>
+                    <p>Job Type: {{ job.job_type }}</p>
+                    {% if job.id in user_job_applications %}
+                    <a class="btn btn-outline-primary btn-sm active">Applied</a>
+                    {% else %}
+                    <a href="{% url 'apply_now' job.id %}" class="btn btn-outline-primary btn-sm">Apply Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if job_feed %}
+<div class="static-jobs">
+    <div class="container">
+        <h2 class="mb-4">Latest Job Feeds</h2>
+        <div class="row">
+
+            {% for job in job_feed %}
+            <div class="col-md-6">
+                <div class="job-card">
+                    <h3 class="job-title">{{ job.title }}</h3>
+                    <p class="job-company">{{ job.company }}</p>
+                    <p>Job Type: Contract</p>
+                    <p>Location: Remote</p>
+                    {% if job.id in user_job_applications %}
+                    <a class="btn btn-outline-primary btn-sm active">Applied</a>
+                    {% else %}
+                    <a href="{% url 'apply_now' job.id %}" class="btn btn-outline-primary btn-sm">Apply Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
